@@ -35,6 +35,57 @@
     });
   }
 
+  // اگر دیتا از JSON بعداً ساخته شد، cards/chips ممکنه تغییر کنن.
+  // پس applyFilter باید لیست‌های جدید رو هم بگیرد.
+  function refreshListsAndApply() {
+    // فقط اگر DOM عوض شده باشه، این به‌روزرسانی ضروریه
+    const newChips = $$(".chip");
+    const newCards = $$("#cards .card");
+
+    // جایگزینی آرایه‌ها در محدوده‌ی همین تابع با closure:
+    // چون cards/chips const بودن، از نسخه جدید applyFilter استفاده می‌کنیم
+    // (ساده‌ترین راه: دوباره فیلتر را با query جدید انجام بدیم)
+
+    const filter = (function () {
+      const on = $(".chip.on");
+      return on ? (on.dataset.filter || "all") : "all";
+    })();
+
+    const q = (searchInput?.value || "").trim().toLowerCase();
+
+    newCards.forEach((card) => {
+      const type = card.dataset.type || "all";
+      const text = (card.innerText || "").toLowerCase();
+
+      const okType = filter === "all" ? true : type === filter;
+      const okText = q ? text.includes(q) : true;
+
+      card.classList.toggle("hidden", !(okType && okText));
+    });
+
+    // اگر chips جدید اومده باشه، دوباره هندلرها لازم نیست (چون روی click با event delegation بهتره)
+    // ولی چون فعلاً event delegation نداریم، فقط در حداقل حالت کاری می‌کنیم:
+    newChips.forEach((chip) => {
+      if (!chip.dataset.bound) {
+        chip.dataset.bound = "1";
+        const activate = () => {
+          newChips.forEach((c) => c.classList.remove("on"));
+          chip.classList.add("on");
+          // apply با cards جدید
+          refreshListsAndApply();
+        };
+
+        chip.addEventListener("click", activate);
+        chip.addEventListener("keydown", (e) => {
+          if (e.key === "Enter" || e.key === " ") {
+            e.preventDefault();
+            activate();
+          }
+        });
+      }
+    });
+  }
+
   chips.forEach((chip) => {
     const activate = () => {
       chips.forEach((c) => c.classList.remove("on"));
@@ -56,8 +107,7 @@
   }
   applyFilter();
 
-  // جزئیات (اگر داخل HTML پاپ‌آپ/Modal نداری فعلاً چیزی باز نمی‌کنه)
-  // ولی اگر خواستی، می‌تونیم modal واقعی اضافه کنیم.
+  // جزئیات
   const detailBtns = $$('[data-open]');
   if (detailBtns.length) {
     detailBtns.forEach((btn) => {
@@ -67,12 +117,19 @@
       });
     });
   }
+
+  // وقتی JSON لود شد و کارت‌ها عوض شدن
+  window.addEventListener("news:loaded", () => {
+    refreshListsAndApply();
+
+    // هندلر جزئیات برای دکمه‌های جدید (چون ممکنه بعداً ساخته بشن)
+    $$('[data-open]').forEach((btn) => {
+      if (btn.dataset.boundDetail) return;
+      btn.dataset.boundDetail = "1";
+      btn.addEventListener("click", () => {
+        const id = btn.dataset.open;
+        alert("جزئیات برای آیتم شماره " + id + " (فعلاً نمونه است).");
+      });
+    });
+  });
 })();
-// اگر دیتا بعداً از JSON ساخته شد، بعد از لود دوباره applyFilter اجرا بشه
-window.addEventListener("news:loaded", () => {
-  // چون applyFilter داخل scope اصلی است، ساده‌ترین روش اینه:
-  // ما دوباره applyFilter را از طریق کلی فعال می‌کنیم.
-  // برای اینکه دردسر نشه، اینجا فقط یک Reload سبک از فیلتر می‌زنیم.
-  const evt = new Event("trigger:filter");
-  window.dispatchEvent(evt);
-});
