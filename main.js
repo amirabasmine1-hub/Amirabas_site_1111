@@ -68,3 +68,11 @@
     });
   }
 })();
+// اگر دیتا بعداً از JSON ساخته شد، بعد از لود دوباره applyFilter اجرا بشه
+window.addEventListener("news:loaded", () => {
+  // چون applyFilter داخل scope اصلی است، ساده‌ترین روش اینه:
+  // ما دوباره applyFilter را از طریق کلی فعال می‌کنیم.
+  // برای اینکه دردسر نشه، اینجا فقط یک Reload سبک از فیلتر می‌زنیم.
+  const evt = new Event("trigger:filter");
+  window.dispatchEvent(evt);
+});
