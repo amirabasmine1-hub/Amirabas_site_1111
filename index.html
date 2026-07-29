@@ -1,0 +1,728 @@
+<!doctype html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>امیر گیمر | اخبار و تحلیل گیم</title>
+  <meta name="description" content="امیر گیمر | خبرهای داغ گیم، تحلیل کوتاه، تریلر و آپدیت‌ها. طراحی نئونی و حرفه‌ای برای کانال روبیکا."/>
+  <style>
+    :root{
+      --bg0:#05060b;
+      --bg1:#070a12;
+      --bg2:#0b1020;
+      --card: rgba(255,255,255,.06);
+      --card2: rgba(255,255,255,.09);
+      --line: rgba(255,255,255,.12);
+      --text: rgba(255,255,255,.92);
+      --muted: rgba(255,255,255,.68);
+
+      --neonA:#7c3aed;
+      --neonB:#22d3ee;
+      --neonC:#f472b6;
+      --neonD:#34d399;
+      --neonE:#fbbf24;
+
+      --radius:18px;
+      --shadow: 0 18px 80px rgba(0,0,0,.55);
+      --shadow2: 0 12px 40px rgba(0,0,0,.35);
+
+      --glowA: 0 0 18px rgba(124,58,237,.38), 0 0 46px rgba(124,58,237,.22);
+      --glowB: 0 0 18px rgba(34,211,238,.35), 0 0 46px rgba(34,211,238,.20);
+      --glowC: 0 0 18px rgba(244,114,182,.30), 0 0 46px rgba(244,114,182,.18);
+
+      --focus: 0 0 0 4px rgba(34,211,238,.18), 0 0 0 1px rgba(34,211,238,.5);
+    }
+
+    *{ box-sizing: border-box; }
+    body{
+      margin:0;
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
+      color: var(--text);
+      background:
+        radial-gradient(1200px 600px at 15% -10%, rgba(124,58,237,.34), transparent 60%),
+        radial-gradient(1000px 520px at 90% 0%, rgba(34,211,238,.22), transparent 58%),
+        radial-gradient(900px 480px at 30% 100%, rgba(244,114,182,.18), transparent 55%),
+        linear-gradient(180deg, var(--bg0), var(--bg1) 40%, var(--bg2));
+      overflow-x: hidden;
+    }
+
+    a{ color: inherit; text-decoration:none; }
+    img{ max-width:100%; height:auto; display:block; }
+    button, input, textarea{ font: inherit; }
+    :focus-visible{ outline:none; box-shadow: var(--focus); border-radius: 12px; }
+
+    .container{ width: min(1140px, calc(100% - 28px)); margin: 0 auto; }
+    .row{ display:flex; gap:14px; flex-wrap:wrap; align-items:center; }
+    .grid{ display:grid; gap:16px; }
+
+    /* NAV */
+    .nav{
+      position: sticky; top:0; z-index:60;
+      backdrop-filter: blur(14px);
+      background: linear-gradient(to bottom, rgba(5,6,11,.78), rgba(5,6,11,.35));
+      border-bottom: 1px solid rgba(255,255,255,.08);
+    }
+    .nav-inner{
+      padding: 14px 0;
+      display:flex; align-items:center; justify-content: space-between;
+      gap:14px;
+    }
+    .brand{ display:flex; align-items:center; gap:12px; min-width:220px; }
+    .brand-logo{
+      width:44px; height:44px; border-radius:14px;
+      background:
+        radial-gradient(circle at 20% 20%, rgba(255,255,255,.25), transparent 40%),
+        linear-gradient(135deg, rgba(124,58,237,.95), rgba(34,211,238,.75), rgba(244,114,182,.6));
+      border: 1px solid rgba(255,255,255,.18);
+      box-shadow: var(--glowA);
+      display:grid; place-items:center;
+      position:relative; overflow:hidden;
+      flex: 0 0 auto;
+    }
+    .brand-logo::after{
+      content:"";
+      position:absolute; inset:-30%;
+      background: conic-gradient(from 210deg, transparent 0 30%, rgba(255,255,255,.25) 35%, transparent 50% 100%);
+      animation: spin 4s linear infinite;
+      opacity:.55;
+    }
+    @keyframes spin{ to{ transform: rotate(360deg); } }
+    .brand-logo span{
+      position:relative;
+      font-weight: 900;
+      letter-spacing: .6px;
+      text-shadow: 0 0 18px rgba(34,211,238,.35);
+    }
+    .brand-meta strong{ display:block; font-size:14px; letter-spacing:.2px; }
+    .brand-meta small{ display:block; color: var(--muted); font-size:12px; margin-top:2px; }
+
+    .nav-links{ display:flex; gap:8px; flex-wrap:wrap; justify-content:flex-end; }
+    .pill{
+      border-radius: 999px;
+      padding: 10px 12px;
+      border: 1px solid rgba(255,255,255,.10);
+      background: rgba(255,255,255,.03);
+      color: rgba(255,255,255,.86);
+      font-size: 13px;
+      transition: .15s ease;
+      user-select:none;
+    }
+    .pill:hover{ transform: translateY(-1px); background: rgba(255,255,255,.06); border-color: rgba(255,255,255,.18); }
+    .pill.active{
+      border-color: rgba(34,211,238,.45);
+      background: rgba(34,211,238,.10);
+      box-shadow: var(--glowB);
+    }
+
+    .btn{
+      border: 1px solid rgba(255,255,255,.12);
+      background: rgba(255,255,255,.04);
+      padding: 12px 14px;
+      border-radius: 14px;
+      cursor:pointer;
+      transition: transform .15s ease, background .15s ease, border-color .15s ease;
+      font-weight: 900;
+      font-size: 14px;
+      display:inline-flex; align-items:center; gap:10px;
+      user-select:none;
+      white-space: nowrap;
+    }
+    .btn:hover{ transform: translateY(-1px); background: rgba(255,255,255,.06); border-color: rgba(255,255,255,.20); }
+
+    .btn-primary{
+      border-color: rgba(124,58,237,.40);
+      background: linear-gradient(135deg, rgba(124,58,237,.95), rgba(34,211,238,.65));
+      box-shadow: var(--glowA);
+    }
+    .btn-primary:hover{
+      background: linear-gradient(135deg, rgba(124,58,237,1), rgba(34,211,238,.78));
+      box-shadow: var(--glowA), var(--glowB);
+    }
+
+    /* HERO */
+    .hero{ padding: 26px 0 12px; }
+    .hero-wrap{
+      display:grid; grid-template-columns: 1.15fr .85fr;
+      gap:16px; align-items:start;
+    }
+    @media (max-width: 980px){ .hero-wrap{ grid-template-columns: 1fr; } .brand{ min-width: unset; } }
+
+    .hero-card{
+      border-radius: var(--radius);
+      background:
+        radial-gradient(900px 420px at 10% -10%, rgba(124,58,237,.25), transparent 55%),
+        radial-gradient(620px 320px at 100% 10%, rgba(34,211,238,.20), transparent 55%),
+        linear-gradient(180deg, rgba(255,255,255,.08), rgba(255,255,255,.03));
+      border: 1px solid rgba(255,255,255,.10);
+      box-shadow: var(--shadow2);
+      overflow:hidden;
+      position:relative;
+      padding:18px;
+    }
+    .hero-card::before{
+      content:"";
+      position:absolute; inset:-2px;
+      background:
+        linear-gradient(90deg, rgba(124,58,237,.22), transparent 35%),
+        linear-gradient(180deg, rgba(34,211,238,.16), transparent 45%);
+      pointer-events:none;
+      opacity:.85;
+    }
+    .hero-card > *{ position:relative; }
+
+    .badge{
+      display:inline-flex; align-items:center; gap:10px;
+      padding: 10px 12px; border-radius: 999px;
+      border: 1px solid rgba(255,255,255,.12);
+      background: rgba(255,255,255,.04);
+      color: rgba(255,255,255,.88);
+      font-size: 13px;
+    }
+    .badge i{
+      width:10px; height:10px; border-radius:50%;
+      background: radial-gradient(circle at 30% 30%, #fff, var(--neonB));
+      box-shadow: 0 0 0 6px rgba(34,211,238,.12);
+      display:inline-block;
+    }
+    .hero h1{
+      margin: 14px 0 10px;
+      font-size: clamp(30px, 4.2vw, 52px);
+      line-height:1.05;
+      letter-spacing: -.8px;
+    }
+    .grad-text{
+      background: linear-gradient(90deg, var(--neonA), var(--neonB), var(--neonC));
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      text-shadow: 0 0 30px rgba(34,211,238,.12);
+    }
+    .lead{
+      margin:0 0 16px;
+      color: var(--muted);
+      font-size: 15px;
+      line-height: 1.9;
+      max-width: 62ch;
+    }
+    .hero-actions{ display:flex; gap:12px; flex-wrap:wrap; margin-top: 14px; }
+
+    .hero-stats{
+      display:grid; grid-template-columns: repeat(3, 1fr);
+      gap: 12px; margin-top:16px;
+    }
+    @media (max-width: 560px){ .hero-stats{ grid-template-columns: 1fr; } }
+    .stat{
+      border-radius:16px;
+      background: rgba(255,255,255,.04);
+      border: 1px solid rgba(255,255,255,.10);
+      padding: 14px;
+    }
+    .stat strong{ display:block; font-size:18px; }
+    .stat span{ display:block; color: var(--muted); font-size: 12px; margin-top:4px; line-height: 1.4; }
+
+    /* Side panels */
+    .side-stack{ display:grid; gap: 16px; }
+    .panel{
+      border-radius: var(--radius);
+      background: rgba(255,255,255,.04);
+      border: 1px solid rgba(255,255,255,.10);
+      box-shadow: var(--shadow2);
+      overflow:hidden;
+      position:relative;
+    }
+    .panel-head{
+      padding:14px 14px 10px;
+      display:flex; align-items:center; justify-content: space-between; gap:10px;
+      border-bottom: 1px solid rgba(255,255,255,.08);
+      background: linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.01));
+    }
+    .panel-head strong{ font-size:14px; letter-spacing:.2px; }
+    .panel-head small{ color: var(--muted); font-size:12px; }
+
+    .panel-body{ padding: 14px; }
+    .cover{
+      border-radius:16px; overflow:hidden;
+      border: 1px solid rgba(255,255,255,.10);
+      background: rgba(255,255,255,.03);
+      position:relative;
+    }
+    .cover img{ width:100%; height:210px; object-fit:cover; display:block; filter: saturate(1.1) contrast(1.05); }
+    .cover::after{
+      content:"";
+      position:absolute; inset:0;
+      background: linear-gradient(180deg, transparent 0%, rgba(0,0,0,.35) 80%, rgba(0,0,0,.55) 100%);
+      pointer-events:none;
+    }
+    .cover .tag{
+      position:absolute; top:12px; right:12px; z-index:2;
+      padding: 8px 10px; border-radius: 999px;
+      border: 1px solid rgba(255,255,255,.14);
+      background: rgba(0,0,0,.25);
+      color: rgba(255,255,255,.92);
+      font-size: 12px; backdrop-filter: blur(10px);
+    }
+    .list{ display:grid; gap: 10px; margin-top: 10px; }
+    .list-item{
+      display:flex; gap:12px; align-items:flex-start;
+      padding: 12px; border-radius: 14px;
+      background: rgba(255,255,255,.03);
+      border: 1px solid rgba(255,255,255,.09);
+    }
+    .list-item b{ font-size:13px; display:block; }
+    .list-item p{ margin:3px 0 0; color: var(--muted); font-size:12px; line-height:1.7; }
+    .ico{
+      width:34px; height:34px; border-radius:12px;
+      display:grid; place-items:center;
+      border:1px solid rgba(255,255,255,.12);
+      background: rgba(255,255,255,.04);
+      box-shadow: 0 0 0 6px rgba(124,58,237,.08);
+      flex:0 0 auto;
+    }
+
+    /* Sections */
+    section{ padding: 18px 0; }
+    .section-title{
+      display:flex; align-items:flex-end; justify-content: space-between;
+      gap:12px; margin-bottom: 12px;
+    }
+    .section-title h2{ margin:0; font-size:18px; letter-spacing:.2px; }
+    .section-title p{ margin:0; color: var(--muted); font-size:13px; line-height:1.6; }
+
+    /* Filters */
+    .news-tools{ display:flex; gap:10px; flex-wrap:wrap; align-items:center; justify-content:space-between; margin-bottom: 12px; }
+    .filters{ display:flex; gap:8px; flex-wrap:wrap; }
+    .chip{
+      padding: 10px 12px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,.10);
+      background: rgba(255,255,255,.03);
+      color: rgba(255,255,255,.85);
+      cursor:pointer;
+      font-size: 13px;
+      transition: .15s ease;
+      user-select:none;
+    }
+    .chip:hover{ background: rgba(255,255,255,.06); transform: translateY(-1px); }
+    .chip.on{
+      border-color: rgba(34,211,238,.45);
+      background: rgba(34,211,238,.12);
+      box-shadow: var(--glowB);
+    }
+    .search{ display:flex; gap:10px; flex-wrap:wrap; }
+    .search input{
+      width: min(360px, 100%);
+      padding: 12px 14px;
+      border-radius: 14px;
+      border: 1px solid rgba(255,255,255,.10);
+      background: rgba(255,255,255,.03);
+      outline:none;
+    }
+
+    /* Cards */
+    .cards-3{ display:grid; grid-template-columns: repeat(3, 1fr); gap:14px; }
+    @media (max-width: 980px){ .cards-3{ grid-template-columns: 1fr; } }
+    .card{
+      border-radius: var(--radius);
+      background: rgba(255,255,255,.04);
+      border: 1px solid rgba(255,255,255,.10);
+      box-shadow: 0 10px 30px rgba(0,0,0,.25);
+      overflow:hidden;
+      transition: transform .15s ease, border-color .15s ease, background .15s ease;
+      position:relative;
+    }
+    .card:hover{ transform: translateY(-2px); border-color: rgba(255,255,255,.18); background: rgba(255,255,255,.06); }
+    .card .thumb{
+      height: 170px;
+      background:
+        radial-gradient(420px 180px at 20% 0%, rgba(124,58,237,.35), transparent 60%),
+        radial-gradient(420px 180px at 90% 30%, rgba(34,211,238,.24), transparent 60%),
+        linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.02));
+      border-bottom: 1px solid rgba(255,255,255,.08);
+      position:relative; overflow:hidden;
+    }
+    .thumb::after{
+      content:"";
+      position:absolute; inset:-40%;
+      background: conic-gradient(from 180deg, rgba(255,255,255,.0), rgba(255,255,255,.18), rgba(255,255,255,.0));
+      animation: spin 6s linear infinite;
+      opacity:.35;
+    }
+    .card .body{ padding:14px; }
+    .meta-row{
+      display:flex; justify-content: space-between; gap:12px; align-items:center;
+      margin-bottom: 10px;
+    }
+    .tag{
+      padding: 8px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,.12);
+      background: rgba(255,255,255,.03);
+      font-size: 12px;
+      color: rgba(255,255,255,.88);
+      white-space: nowrap;
+    }
+    .time{ color: var(--muted); font-size: 12px; }
+    .card h3{ margin:0 0 8px; font-size: 15px; line-height:1.4; }
+    .card p{ margin:0; color: var(--muted); font-size: 13px; line-height: 1.8; min-height: 46px; }
+    .card .actions{ padding:0 14px 14px; display:flex; gap:10px; flex-wrap:wrap; justify-content: space-between; align-items:center; }
+
+    .small-btn{
+      padding: 10px 12px;
+      border-radius: 14px;
+      border: 1px solid rgba(255,255,255,.12);
+      background: rgba(255,255,255,.04);
+      cursor:pointer;
+      font-weight: 900;
+      font-size: 13px;
+      transition: .15s ease;
+      display:inline-flex; align-items:center; gap:8px;
+      user-select:none;
+    }
+    .small-btn:hover{ background: rgba(255,255,255,.06); transform: translateY(-1px); }
+    .small-btn.primary{
+      border-color: rgba(124,58,237,.40);
+      background: rgba(124,58,237,.16);
+      box-shadow: var(--glowA);
+    }
+
+    /* Video grid */
+    .vid-grid{ display:grid; grid-template-columns: repeat(2, 1fr); gap:12px; }
+    @media (max-width: 560px){ .vid-grid{ grid-template-columns: 1fr; } }
+    .vid{
+      border-radius: 16px;
+      border: 1px solid rgba(255,255,255,.10);
+      background: rgba(255,255,255,.03);
+      overflow:hidden;
+    }
+    .vid iframe{ width:100%; aspect-ratio: 16/9; border:0; display:block; }
+    .vid .caption{ padding:12px; color: var(--muted); font-size:12px; line-height:1.7; border-top: 1px solid rgba(255,255,255,.08); }
+
+    footer{ padding: 28px 0 40px; border-top: 1px solid rgba(255,255,255,.08); color: var(--muted); margin-top: 18px; }
+    .footer-row{ display:flex; align-items:flex-start; justify-content: space-between; gap:16px; flex-wrap:wrap; }
+    .kbd{
+      display:inline-flex; align-items:center; gap:8px;
+      border: 1px solid rgba(255,255,255,.10);
+      background: rgba(255,255,255,.03);
+      padding: 10px 12px;
+      border-radius: 14px;
+      color: rgba(255,255,255,.78);
+      font-size: 12px;
+    }
+    .hidden{ display:none !important; }
+  </style>
+</head>
+
+<body>
+  <div class="nav">
+    <div class="container nav-inner">
+      <div class="brand">
+        <div class="brand-logo" aria-hidden="true"><span>AG</span></div>
+        <div class="brand-meta">
+          <strong>امیر گیمر</strong>
+          <small>خبرهای داغ • تحلیل کوتاه • تریلر و آپدیت</small>
+        </div>
+      </div>
+
+      <div class="nav-links" aria-label="منو">
+        <a class="pill active" href="#news">اخبار</a>
+        <a class="pill" href="#videos">ویدیوها</a>
+        <a class="pill" href="#schedule">برنامه</a>
+        <a class="pill" href="#contact">ارتباط</a>
+      </div>
+
+      <div>
+        <a class="btn btn-primary" href="https://rubika.ir/Amir909915" target="_blank" rel="noopener">
+          <span>عضویت در روبیکا</span><span aria-hidden="true">⚡</span>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <header class="hero">
+    <div class="container hero-wrap">
+      <div class="hero-card">
+        <div class="badge"><i></i> تازه‌ترین خبرهای گیم + تحلیل بدون حاشیه</div>
+        <h1>
+          کانال <span class="grad-text">امیر گیمر</span> برای دنبال‌کردن داغ‌ترین اتفاقات!
+        </h1>
+        <p class="lead">
+          این صفحه برای معرفی کانالت طراحی شده: اخبار دسته‌بندی‌شده، ویترین محتوا و برنامه انتشار.
+          (الان نمونه‌ها داخل کد هست؛ بعداً با خبرهای واقعی خودت جایگزینش کن.)
+        </p>
+
+        <div class="hero-actions">
+          <a class="btn btn-primary" href="https://rubika.ir/Amir909915" target="_blank" rel="noopener">
+            رفتن به روبیکا <span aria-hidden="true">→</span>
+          </a>
+          <a class="btn" href="#news">
+            دیدن اخبار <span aria-hidden="true">📰</span>
+          </a>
+        </div>
+
+        <div class="hero-stats">
+          <div class="stat">
+            <strong>آپدیت فوری</strong>
+            <span>خبرهای داغ + نکات کلیدی</span>
+          </div>
+          <div class="stat">
+            <strong>تحلیل کوتاه</strong>
+            <span>جمع‌بندی سریع و کاربردی</span>
+          </div>
+          <div class="stat">
+            <strong>تریلر و هایلایت</strong>
+            <span>محتوای ویدیویی کوتاه و جذاب</span>
+          </div>
+        </div>
+      </div>
+
+      <aside class="side-stack">
+        <div class="panel">
+          <div class="panel-head">
+            <strong>ویترین امروز</strong>
+            <small>گیمری و نئونی</small>
+          </div>
+          <div class="panel-body">
+            <div class="cover">
+              <div class="tag">🔥 Trend</div>
+              <img src="images/cover.jpg" alt="بنر امیر گیمر"
+                   onerror="this.closest('.cover').innerHTML='<div style=&quot;padding:18px;color:rgba(255,255,255,.75)&quot;>عکس بنر پیدا نشد؛ images/cover.jpg اضافه کن.</div>';">
+            </div>
+
+            <div class="list">
+              <div class="list-item">
+                <div class="ico">🎮</div>
+                <div>
+                  <b>اخبار بازی‌ها</b>
+                  <p>ترندها، تاریخ‌ها، رویدادها و خبرهای داغ.</p>
+                </div>
+              </div>
+              <div class="list-item">
+                <div class="ico">🧠</div>
+                <div>
+                  <b>تحلیل کوتاه</b>
+                  <p>بدون حاشیه؛ فقط چیزهایی که به کارت میاد.</p>
+                </div>
+              </div>
+              <div class="list-item">
+                <div class="ico">⚡</div>
+                <div>
+                  <b>پیشنهاد بازی</b>
+                  <p>بر اساس سبک شما: اکشن، بتل‌رویال، داستانی...</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="panel" id="contact">
+          <div class="panel-head">
+            <strong>لینک سریع</strong>
+            <small>یک‌کلیک</small>
+          </div>
+          <div class="panel-body">
+            <div class="row">
+              <a class="btn btn-primary" href="https://rubika.ir/Amir909915" target="_blank" rel="noopener">
+                عضویت در روبیکا <span aria-hidden="true">⚡</span>
+              </a>
+              <a class="btn" href="#contact">
+                همکاری <span aria-hidden="true">✉️</span>
+              </a>
+            </div>
+            <div style="margin-top:12px;color:rgba(255,255,255,.68);font-size:12px;line-height:1.8;">
+              برای همکاری/تبلیغات متن رو داخل پست‌هات یا پیام به خودت اضافه کن.
+              (اگر ایمیل یا شماره داری، بده تا همینجا دکمه‌ش رو بسازم.)
+            </div>
+          </div>
+        </div>
+      </aside>
+    </div>
+  </header>
+
+  <main class="container">
+    <!-- NEWS -->
+    <section id="news">
+      <div class="section-title">
+        <h2>اخبار داغ (نمونه)</h2>
+        <p>با سرچ و فیلتر می‌تونی سریع دسته‌بندی رو تست کنی. متن‌ها را با خبرهای واقعی خودت عوض کن.</p>
+      </div>
+
+      <div class="news-tools">
+        <div class="filters" role="tablist" aria-label="فیلتر اخبار">
+          <div class="chip on" role="button" tabindex="0" data-filter="all">همه</div>
+          <div class="chip" role="button" tabindex="0" data-filter="news">خبر</div>
+          <div class="chip" role="button" tabindex="0" data-filter="review">ریویو</div>
+          <div class="chip" role="button" tabindex="0" data-filter="update">آپدیت</div>
+        </div>
+
+        <div class="search">
+          <input id="searchInput" type="text" placeholder="جستجو بین خبرها...">
+        </div>
+      </div>
+
+      <div class="cards-3" id="cards">
+        <!-- نمونه کارت ها -->
+        <article class="card" data-type="news">
+          <div class="thumb"></div>
+          <div class="body">
+            <div class="meta-row">
+              <div class="tag">خبر</div>
+              <div class="time">امروز</div>
+            </div>
+            <h3>رویداد جدید بازی X + تاریخ انتشار</h3>
+            <p>خلاصه: چی اضافه شد؟ چه زمانی شروع می‌شه؟ و مهم‌ترین نکته برای گیمرها.</p>
+          </div>
+          <div class="actions">
+            <button class="small-btn primary" type="button" data-open="1">جزئیات</button>
+            <a class="small-btn" href="https://rubika.ir/Amir909915" target="_blank" rel="noopener">رفتن به روبیکا</a>
+          </div>
+        </article>
+
+        <article class="card" data-type="update">
+          <div class="thumb"></div>
+          <div class="body">
+            <div class="meta-row">
+              <div class="tag">آپدیت</div>
+              <div class="time">دیروز</div>
+            </div>
+            <h3>آپدیت Y: بالانس اسلحه‌ها و باگ‌فیکس</h3>
+            <p>جمع‌بندی تغییرات: چه چیزی قوی/ضعیف شد و راهنمای سریع برای بازی‌کردن بهتر.</p>
+          </div>
+          <div class="actions">
+            <button class="small-btn primary" type="button" data-open="2">جزئیات</button>
+            <a class="small-btn" href="https://rubika.ir/Amir909915" target="_blank" rel="noopener">رفتن به روبیکا</a>
+          </div>
+        </article>
+
+        <article class="card" data-type="review">
+          <div class="thumb"></div>
+          <div class="body">
+            <div class="meta-row">
+              <div class="tag">ریویو</div>
+              <div class="time">این هفته</div>
+            </div>
+            <h3>ریویو سریع بازی Z: ارزش خرید داره؟</h3>
+            <p>نمره از نظر گیم‌پلی، داستان، بهینه‌سازی و پیشنهاد برای سبک‌های مختلف.</p>
+          </div>
+          <div class="actions">
+            <button class="small-btn primary" type="button" data-open="3">جزئیات</button>
+            <a class="small-btn" href="https://rubika.ir/Amir909915" target="_blank" rel="noopener">رفتن به روبیکا</a>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- VIDEOS -->
+    <section id="videos">
+      <div class="section-title">
+        <h2>ویدیوها (نمونه)</h2>
+        <p>اینجا Embed نمونه هست. به‌محض اینکه لینک یوتیوب/آپارات/… داری، عوضش کن.</p>
+      </div>
+
+      <div class="vid-grid">
+        <div class="vid">
+          <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ" title="Video 1" allowfullscreen></iframe>
+          <div class="caption">نمونه ویدیو: تریلر/هایلایت</div>
+        </div>
+        <div class="vid">
+          <iframe src="https://www.youtube.com/embed/ysz5S6PUM-U" title="Video 2" allowfullscreen></iframe>
+          <div class="caption">نمونه ویدیو: تحلیل کوتاه</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SCHEDULE -->
+    <section id="schedule">
+      <div class="section-title">
+        <h2>برنامه انتشار (قابل تغییر)</h2>
+        <p>این بخش رو خودت با زمان‌بندی کانالت آپدیت کن.</p>
+      </div>
+
+      <div class="grid">
+        <div class="panel">
+          <div class="panel-head">
+            <strong>پلن پیشنهادی</strong>
+            <small>برای کانال گیمری</small>
+          </div>
+          <div class="panel-body">
+            <div class="list">
+              <div class="list-item">
+                <div class="ico">🗓️</div>
+                <div>
+                  <b>روزانه</b>
+                  <p>خبر کوتاه + یک نکته کلیدی از اپدیت‌ها/رویدادها.</p>
+                </div>
+              </div>
+              <div class="list-item">
+                <div class="ico">🎬</div>
+                <div>
+                  <b>هفته‌ای ۲ بار</b>
+                  <p>تریلر/هایلایت کوتاه یا ویدیو تحلیل.</p>
+                </div>
+              </div>
+              <div class="list-item">
+                <div class="ico">📌</div>
+                <div>
+                  <b>آخر هفته</b>
+                  <p>جمع‌بندی هفتگی + پیشنهاد بازی برای دنبال‌کردن.</p>
+                </div>
+              </div>
+            </div>
+
+            <div style="margin-top:12px;color:rgba(255,255,255,.68);font-size:12px;line-height:1.8;">
+              اگر بخوای، زمان‌های دقیق (مثلاً ساعت ۸ شب) رو هم می‌ذارم تو UI.
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container footer-row">
+      <div>© <span id="y"></span> امیر گیمر • ساخته با HTML/CSS</div>
+      <div class="kbd">برای ادیت: متن‌ها و کارت‌ها رو داخل همین فایل index.html عوض کن</div>
+    </div>
+  </footer>
+
+  <script>
+    // سال
+    document.getElementById('y').textContent = new Date().getFullYear();
+
+    // فیلتر و سرچ اخبار
+    const chips = Array.from(document.querySelectorAll('.chip'));
+    const cards = Array.from(document.querySelectorAll('#cards .card'));
+    const searchInput = document.getElementById('searchInput');
+
+    function applyFilter(){
+      const activeChip = document.querySelector('.chip.on');
+      const filter = activeChip ? activeChip.dataset.filter : 'all';
+      const q = (searchInput.value || '').trim().toLowerCase();
+
+      cards.forEach(card => {
+        const type = card.dataset.type;
+        const text = card.innerText.toLowerCase();
+
+        const okType = (filter === 'all') ? true : (type === filter);
+        const okText = q ? text.includes(q) : true;
+
+        card.classList.toggle('hidden', !(okType && okText));
+      });
+    }
+
+    chips.forEach(chip => {
+      chip.addEventListener('click', () => {
+        chips.forEach(c => c.classList.remove('on'));
+        chip.classList.add('on');
+        applyFilter();
+      });
+      chip.addEventListener('keydown', (e) => {
+        if(e.key === 'Enter' || e.key === ' '){
+          e.preventDefault();
+          chip.click();
+        }
+      });
+    });
+
+    searchInput.addEventListener('input', applyFilter);
+
+    // جزئیات
